@@ -1,0 +1,1 @@
+cmd_/root/drivers/Linux_Drv_3.2.2/ACS6x.mod := printf '%s\n'   acs_ame.o AME_module.o AME_Queue.o MPIO.o ACS_MSG.o AME_Raid.o | awk '!x[$$0]++ { print("/root/drivers/Linux_Drv_3.2.2/"$$0) }' > /root/drivers/Linux_Drv_3.2.2/ACS6x.mod

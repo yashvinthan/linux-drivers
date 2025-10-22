@@ -1,0 +1,73 @@
+#!/bin/bash
+# Post-installation notes for DKMS setup of Accusys ACS6x driver
+#
+# This is NOT an executable script - these are instructions to follow after
+# copying the driver source to the DKMS tree.
+
+# ============================================================================
+# DKMS Installation Steps
+# ============================================================================
+
+# 1. Copy driver source to DKMS source tree
+#    (Adjust version number if different)
+VERSION="3.2.2"
+sudo mkdir -p /usr/src/acs6x-${VERSION}
+sudo cp -r /root/drivers/Linux_Drv_3.2.2/* /usr/src/acs6x-${VERSION}/
+
+# 2. Ensure dkms.conf is present
+sudo cp dkms.conf /usr/src/acs6x-${VERSION}/
+
+# 3. Ensure Makefile.new is used (or copy it as Makefile)
+sudo cp /usr/src/acs6x-${VERSION}/Makefile.new /usr/src/acs6x-${VERSION}/Makefile
+
+# 4. Add module to DKMS
+sudo dkms add -m acs6x -v ${VERSION}
+
+# 5. Build module for current kernel
+sudo dkms build -m acs6x -v ${VERSION}
+
+# 6. Install module
+sudo dkms install -m acs6x -v ${VERSION}
+
+# 7. Verify installation
+dkms status | grep acs6x
+
+# 8. Load the module
+sudo modprobe ACS6x
+
+# 9. Check if loaded
+lsmod | grep ACS6x
+dmesg | tail -50 | grep -i acs
+
+# ============================================================================
+# DKMS Removal (if needed)
+# ============================================================================
+
+# Remove from DKMS
+# sudo dkms remove -m acs6x -v ${VERSION} --all
+# sudo rm -rf /usr/src/acs6x-${VERSION}
+
+# ============================================================================
+# Rebuilding after kernel update
+# ============================================================================
+
+# DKMS should auto-rebuild when you install new kernel headers.
+# If it doesn't, manually rebuild:
+# sudo dkms build -m acs6x -v ${VERSION} -k $(uname -r)
+# sudo dkms install -m acs6x -v ${VERSION} -k $(uname -r)
+
+# ============================================================================
+# Troubleshooting
+# ============================================================================
+
+# View build log:
+# cat /var/lib/dkms/acs6x/${VERSION}/build/make.log
+
+# Check DKMS status:
+# dkms status
+
+# Force rebuild:
+# sudo dkms remove -m acs6x -v ${VERSION} --all
+# sudo dkms add -m acs6x -v ${VERSION}
+# sudo dkms build -m acs6x -v ${VERSION}
+# sudo dkms install -m acs6x -v ${VERSION}

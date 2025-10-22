@@ -62,60 +62,7 @@
     #define DMA_32BIT_MASK          0x00000000ffffffffULL
 #endif
 
-#if LINUX_VERSION_CODE >= KERNEL_VERSION(5,0,0)
-    /* pci_get_bus_and_slot removed in 5.0, use pci_get_domain_bus_and_slot */
-    #define acs_pci_get_bus(bus, devfn) \
-            pci_get_domain_bus_and_slot(0, bus, devfn)
-#elif LINUX_VERSION_CODE >= KERNEL_VERSION(2,6,19)
-    #define acs_pci_get_bus(bus, devfn) \
-            pci_get_bus_and_slot(bus, devfn)
-#else
-    #define acs_pci_get_bus(bus, devfn) \
-            pci_find_slot(bus, devfn)
-#endif
-
-#if LINUX_VERSION_CODE >= KERNEL_VERSION(2,6,6)
-    #define acs_add_device(host, channel, target, lun) \
-            __scsi_add_device(host, channel, target, lun, NULL)
-#else
-    #define acs_add_device(host, channel, target, lun) \
-            scsi_add_device(host, channel, target, lun)
-#endif
-
-#if LINUX_VERSION_CODE == KERNEL_VERSION(2,6,9)
-    #define acs_put_device(TargeID_device) \
-            put_device(TargeID_device)
-#else
-    #define acs_put_device(TargeID_device) \
-            scsi_device_put(TargeID_device)
-#endif
-
-#if LINUX_VERSION_CODE >= KERNEL_VERSION(2,6,27)
-    #define acs_device_create(class,parent,devt,fmt,CHAR_DRIVER_NAME,index) \
-                device_create(class,parent,devt,NULL,fmt,CHAR_DRIVER_NAME,index)
-#elif LINUX_VERSION_CODE >= KERNEL_VERSION(2,6,18)
-    #define acs_device_create(class,parent,devt,fmt,CHAR_DRIVER_NAME,index) \
-                device_create(class,parent,devt,fmt,CHAR_DRIVER_NAME,index)
-#else
-    #define acs_device_create(class,parent,devt,fmt,CHAR_DRIVER_NAME,index) \
-    
-#endif
-
-#if LINUX_VERSION_CODE >= KERNEL_VERSION(2,6,18)
-    #define acs_device_destroy(class,devt) \
-                device_destroy(class,devt)
-#else
-    #define acs_device_destroy(class,devt) \
-    
-#endif
-
-#if LINUX_VERSION_CODE >= KERNEL_VERSION(2,6,20)
-    #define acs_request_irq(irq,handler,name,dev) \
-                request_irq(irq,handler,IRQF_SHARED,name,dev)
-#else
-    #define acs_request_irq(irq,handler,name,dev) \
-                request_irq(irq,handler,SA_INTERRUPT|SA_SHIRQ,name,dev)
-#endif
+/* All API compatibility macros moved to compat.h */
 
 
 #define PCI_NT_DEVICE(vend,dev,svend,sdev) \

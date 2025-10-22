@@ -1,0 +1,1 @@
+cmd_/root/drivers/Linux_Drv_3.2.2/ACS6x.ko := ld -r -m elf_x86_64 -z noexecstack --no-warn-rwx-segments --build-id=sha1  -T arch/x86/module.lds -o /root/drivers/Linux_Drv_3.2.2/ACS6x.ko /root/drivers/Linux_Drv_3.2.2/ACS6x.o /root/drivers/Linux_Drv_3.2.2/ACS6x.mod.o;  true

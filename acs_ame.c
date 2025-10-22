@@ -53,7 +53,7 @@
 #include <scsi/scsi_device.h>
 #include <scsi/scsicam.h>
 #include <scsi/scsi_transport.h>
-#include "modern_kernel_compat.h"
+#include "compat.h"
 
 #include "acs_ame.h"
 
@@ -2313,7 +2313,7 @@ static struct pci_driver pci_driver =
 static int __init acs_ame_init(void)
 {
     #if LINUX_VERSION_CODE >= KERNEL_VERSION(2,6,18)
-        ACS_class = class_create(THIS_MODULE, CHAR_DRIVER_NAME);
+        ACS_class = acs_class_create(CHAR_DRIVER_NAME);
     #endif
     return pci_register_driver(&pci_driver);
 }
