@@ -630,7 +630,7 @@ AME_U32 AME_Host_Normal_handler_SCSI_REQUEST (pAME_REQUEST_CallBack pAMEREQUESTC
 					break;
 				case AME_SCSI_STATUS_CHECK_CONDITION:
 				    pCmd->result = DID_OK << 16 | COMMAND_COMPLETE << 8 | SAM_STAT_CHECK_CONDITION;
-				    PRINTK("AME_SCSI_STATUS_CHECK_CONDITION\n");
+				    //PRINTK("AME_SCSI_STATUS_CHECK_CONDITION\n");
 					break;
 				case AME_SCSI_STATUS_BUSY:
 				    pCmd->result = (DID_OK << 16) | (BUSY << 1);
